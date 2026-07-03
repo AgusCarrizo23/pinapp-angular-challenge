@@ -1,0 +1,90 @@
+<section class="customer-form-page" aria-labelledby="customer-form-title">
+  <header class="customer-form-page__header">
+    <h1 id="customer-form-title">Nuevo cliente</h1>
+    <p>Completá el formulario para registrar un nuevo cliente.</p>
+  </header>
+
+  <mat-card class="customer-form-card">
+    <form [formGroup]="customerForm" (ngSubmit)="submit()" novalidate>
+      <div class="customer-form__grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Nombre</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="name"
+            placeholder="Ingresá el nombre"
+            autocomplete="given-name"
+          />
+          <mat-error>{{ getNameErrorMessage() }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Apellido</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="lastName"
+            placeholder="Ingresá el apellido"
+            autocomplete="family-name"
+          />
+          <mat-error>{{ getLastNameErrorMessage() }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Edad</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="age"
+            placeholder="Se calcula automáticamente"
+            readonly
+          />
+          <mat-hint>Se calcula según la fecha de nacimiento.</mat-hint>
+          <mat-error>{{ getAgeErrorMessage() }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Fecha de nacimiento</mat-label>
+          <input
+            matInput
+            formControlName="birthDate"
+            placeholder="Seleccioná la fecha"
+            [matDatepicker]="birthDatePicker"
+            [max]="maxBirthDate"
+          />
+          <mat-datepicker-toggle matSuffix [for]="birthDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #birthDatePicker></mat-datepicker>
+          <mat-error>{{ getBirthDateErrorMessage() }}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <p
+        *ngIf="customerForm.hasError('ageBirthDateMismatch') && customerForm.touched"
+        class="customer-form__general-error"
+        role="alert"
+      >
+        <mat-icon aria-hidden="true">error_outline</mat-icon>
+        La edad no coincide con la fecha de nacimiento.
+      </p>
+
+      <div class="customer-form__actions">
+        <a mat-stroked-button routerLink="/customers">Cancelar</a>
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          [disabled]="customerForm.invalid || isSaving"
+        >
+          <mat-progress-spinner
+            *ngIf="isSaving"
+            mode="indeterminate"
+            diameter="18"
+            strokeWidth="3"
+          ></mat-progress-spinner>
+          <span>{{ isSaving ? 'Guardando...' : 'Guardar cliente' }}</span>
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</section>
