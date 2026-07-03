@@ -1,27 +1,105 @@
-# PinappAngularChallenge
+# PinApp Angular Challenge
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.11.
+Aplicación web desarrollada con Angular 15 para la gestión de clientes.
 
-## Development server
+## Demo
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+URL pública:https://pinapp-angular-challenge.web.app
 
-## Code scaffolding
+## Tecnologías
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Angular 15
+- TypeScript
+- Angular Material
+- Firebase Firestore
+- Firebase Authentication
+- Firebase Hosting
+- SCSS
+- Git / GitHub
 
-## Build
+## Funcionalidades
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- Login con Firebase Authentication
+- Rutas protegidas con Auth Guard
+- Dashboard con métricas de clientes
+- Alta de clientes
+- Listado de clientes
+- Filtro y ordenamiento
+- Detalle de cliente mediante modal
+- Edición de cliente mediante modal
+- Eliminación de cliente mediante modal
+- Cálculo de promedio de edad
+- Cálculo de desviación estándar
+- Página 404
+- Loading global
+- Manejo de errores
 
-## Running unit tests
+## Instalación
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+npm install
+Ejecutar en local
+ng serve
 
-## Running end-to-end tests
+Abrir:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+http://localhost:4200
 
-## Further help
+Build
+ng build
+Firebase
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+El proyecto utiliza Firebase para:
+
+Authentication
+Firestore
+Hosting
+Estructura del proyecto
+src/app/
+  core/
+  shared/
+  layout/
+  features/
+    auth/
+    dashboard/
+    customers/
+
+    
+Decisiones técnicas
+Arquitectura por features
+
+La aplicación se organizó por funcionalidades para facilitar escalabilidad y mantenimiento.
+
+Angular Material
+
+Se utilizó Angular Material para mantener una UI consistente, accesible y responsive.
+
+Modales para acciones de clientes
+
+Las acciones de detalle, edición y eliminación se implementaron con MatDialog porque son acciones simples y contextuales sobre un cliente existente.
+
+Reactive Forms
+
+El formulario de clientes utiliza Reactive Forms para manejar validaciones de forma clara y escalable.
+
+Firebase
+
+Firestore se utiliza como base de datos y Firebase Authentication para proteger rutas privadas.
+
+Validaciones
+
+El formulario de cliente valida:
+
+Nombre obligatorio
+Apellido obligatorio
+Edad obligatoria
+Edad entre 1 y 120
+Fecha de nacimiento obligatoria
+Fecha no futura
+Consistencia entre edad y fecha de nacimiento
+Scripts útiles
+npm start
+npm run build
+
+## Autor
+
+María Agustina Carrizo
