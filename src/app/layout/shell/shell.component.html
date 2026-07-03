@@ -1,5 +1,5 @@
 <div class="shell">
-  <header class="shell__header">
+  <header *ngIf="!isLoginRoute" class="shell__header">
     <app-header></app-header>
   </header>
 
@@ -7,7 +7,7 @@
     <router-outlet></router-outlet>
   </main>
 
-  <footer class="shell__footer">
+  <footer *ngIf="!isLoginRoute" class="shell__footer">
     <app-footer></app-footer>
   </footer>
 </div>
