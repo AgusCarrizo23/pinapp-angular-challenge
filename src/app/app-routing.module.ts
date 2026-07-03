@@ -6,7 +6,7 @@ import { authGuard } from './core/guards/auth.guard';
 import { AppShellComponent } from './layout/components/app-shell/app-shell.component';
 import { CustomerFormPlaceholderComponent } from './pages/customer-form-placeholder/customer-form-placeholder.component';
 import { CustomersPlaceholderComponent } from './pages/customers-placeholder/customers-placeholder.component';
-import { DashboardPlaceholderComponent } from './pages/dashboard-placeholder/dashboard-placeholder.component';
+import { DashboardPageComponent } from './features/dashboard/page/dashboard-page/dashboard-page.component';
 
 const routes: Routes = [
   {
@@ -20,7 +20,7 @@ const routes: Routes = [
     children: [
       {
         path: 'dashboard',
-        component: DashboardPlaceholderComponent
+        component: DashboardPageComponent
       },
       {
         path: 'customers/new',

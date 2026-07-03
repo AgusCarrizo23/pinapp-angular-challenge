@@ -1,0 +1,61 @@
+<section class="dashboard" aria-labelledby="dashboard-title">
+  <header class="dashboard__header">
+    <h1 id="dashboard-title" class="dashboard__title">
+      Hola, {{ userName$ | async }} !
+    </h1>
+    <p class="dashboard__subtitle">
+      Resumen general de clientes registrados en la aplicación.
+    </p>
+  </header>
+
+  <div *ngIf="metrics$ | async as metrics" class="dashboard__metrics">
+    <app-metric-card
+      title="Clientes registrados"
+      [value]="metrics.totalCustomers"
+      subtitle="Total de clientes"
+      icon="groups"
+      tone="blue"
+    ></app-metric-card>
+
+    <app-metric-card
+      title="Promedio de edad"
+      [value]="metrics.averageAge | number: '1.1-1'"
+      subtitle="Años"
+      icon="bar_chart"
+      tone="green"
+    ></app-metric-card>
+
+    <app-metric-card
+      title="Desviación estándar"
+      [value]="metrics.standardDeviation | number: '1.1-1'"
+      subtitle="Años"
+      icon="show_chart"
+      tone="purple"
+    ></app-metric-card>
+  </div>
+
+  <mat-card class="dashboard__quick-actions">
+    <div class="dashboard__section-heading">
+      <h2>Acciones rápidas</h2>
+      <p>Gestioná tus clientes de forma rápida y sencilla.</p>
+    </div>
+
+    <div class="dashboard__actions-grid">
+      <app-quick-action-card
+        title="Nuevo cliente"
+        description="Registrar un nuevo cliente"
+        icon="person_add"
+        route="/customers/new"
+        tone="blue"
+      ></app-quick-action-card>
+
+      <app-quick-action-card
+        title="Ver clientes"
+        description="Ver lista de clientes registrados"
+        icon="groups"
+        route="/customers"
+        tone="green"
+      ></app-quick-action-card>
+    </div>
+  </mat-card>
+</section>
