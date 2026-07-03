@@ -1,80 +1,72 @@
-import { Injectable, inject } from '@angular/core';
-import { FirebaseApp } from '@angular/fire/app';
-import { Observable } from 'rxjs';
+/// <reference types="jasmine" />
 
-import { Customer } from '../interfaces/customer';
+import { FormControl, FormGroup } from '@angular/forms';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class CustomersService {
-  private readonly firebaseApp = inject(FirebaseApp);
+import {
+  ageBirthDateConsistencyValidator,
+  calculateAge,
+  lettersOnlyValidator,
+  noWhitespaceValidator,
+  notFutureDateValidator,
+  positiveIntegerValidator,
+  sanitizeLettersInput
+} from './customer-form-validators';
 
-  getCustomers(): Observable<Customer[]> {
-    return new Observable<Customer[]>((subscriber) => {
-      let unsubscribe: (() => void) | undefined;
-      let isDestroyed = false;
+describe('customer form validators', () => {
+  it('rejects text containing only whitespace', () => {
+    expect(noWhitespaceValidator(new FormControl('   '))).toEqual({ whitespace: true });
+    expect(noWhitespaceValidator(new FormControl('Agustina'))).toBeNull();
+  });
 
-      import('firebase/firestore')
-        .then(({ collection, getFirestore, onSnapshot }) => {
-          if (isDestroyed) {
-            return;
-          }
+  it('accepts Unicode letters and spaces', () => {
+    expect(lettersOnlyValidator(new FormControl('María José'))).toBeNull();
+    expect(lettersOnlyValidator(new FormControl('Muñoz'))).toBeNull();
+  });
 
-          const customersCollection = collection(
-            getFirestore(this.firebaseApp),
-            'customers'
-          );
+  it('rejects numbers and special characters in names', () => {
+    expect(lettersOnlyValidator(new FormControl('Agustina123')))
+      .toEqual({ lettersOnly: true });
+    expect(lettersOnlyValidator(new FormControl('Carrizo!')))
+      .toEqual({ lettersOnly: true });
+  });
 
-          unsubscribe = onSnapshot(
-            customersCollection,
-            (snapshot) => {
-              subscriber.next(
-                snapshot.docs.map((document) => ({
-                  ...document.data(),
-                  id: document.id
-                }) as Customer)
-              );
-            },
-            (error) => subscriber.error(error)
-          );
-        })
-        .catch((error: unknown) => subscriber.error(error));
+  it('removes invalid characters from typed or pasted text', () => {
+    expect(sanitizeLettersInput('María123 José!')).toBe('María José');
+  });
 
-      return () => {
-        isDestroyed = true;
-        unsubscribe?.();
-      };
+  it('rejects decimal values for age', () => {
+    expect(positiveIntegerValidator(new FormControl(25.5))).toEqual({ integer: true });
+    expect(positiveIntegerValidator(new FormControl(25))).toBeNull();
+  });
+
+  it('rejects future birth dates', () => {
+    const validator = notFutureDateValidator(new Date(2026, 6, 3));
+
+    expect(validator(new FormControl(new Date(2026, 6, 4))))
+      .toEqual({ futureDate: true });
+    expect(validator(new FormControl(new Date(2026, 6, 3)))).toBeNull();
+  });
+
+  it('calculates age according to whether the birthday has passed', () => {
+    expect(calculateAge(new Date(1990, 8, 10), new Date(2026, 6, 3))).toBe(35);
+    expect(calculateAge(new Date(1990, 4, 10), new Date(2026, 6, 3))).toBe(36);
+  });
+
+  it('allows one year of difference and rejects larger mismatches', () => {
+    const today = new Date();
+    const form = new FormGroup({
+      age: new FormControl(34),
+      birthDate: new FormControl(new Date(
+        today.getFullYear() - 35,
+        today.getMonth(),
+        today.getDate()
+      ))
     });
-  }
 
-  createCustomer(customer: Customer): Observable<void> {
-    return new Observable<void>((subscriber) => {
-      let isDestroyed = false;
+    expect(ageBirthDateConsistencyValidator(form)).toBeNull();
 
-      import('firebase/firestore')
-        .then(async ({ addDoc, collection, getFirestore, serverTimestamp }) => {
-          await addDoc(
-            collection(getFirestore(this.firebaseApp), 'customers'),
-            {
-              name: customer.name,
-              lastName: customer.lastName,
-              age: customer.age,
-              birthDate: customer.birthDate,
-              createdAt: serverTimestamp()
-            }
-          );
-
-          if (!isDestroyed) {
-            subscriber.next();
-            subscriber.complete();
-          }
-        })
-        .catch((error: unknown) => subscriber.error(error));
-
-      return () => {
-        isDestroyed = true;
-      };
-    });
-  }
-}
+    form.controls.age.setValue(20);
+    expect(ageBirthDateConsistencyValidator(form))
+      .toEqual({ ageBirthDateMismatch: true });
+  });
+});

@@ -1,63 +1,60 @@
 import { Component, OnDestroy, inject } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { FirebaseError } from 'firebase/app';
 import { Subject, finalize, takeUntil } from 'rxjs';
 
-import { environment } from '../../../../../environments/environment';
 import { Customer } from '../../interfaces/customer';
 import { CustomersService } from '../../services/customers.service';
+import { toCustomerDate } from '../../utils/customer-date';
 import {
-  ageBirthDateConsistencyValidator,
   calculateAge,
   lettersOnlyValidator,
   noWhitespaceValidator,
-  notFutureDateValidator,
-  positiveIntegerValidator
+  notFutureDateValidator
 } from '../../utils/customer-form-validators';
 
 @Component({
-  selector: 'app-customer-form-page',
-  templateUrl: './customer-form-page.component.html',
-  styleUrls: ['./customer-form-page.component.scss']
+  selector: 'app-customer-edit-dialog',
+  templateUrl: './customer-edit-dialog.component.html',
+  styleUrls: ['./customer-edit-dialog.component.scss']
 })
-export class CustomerFormPageComponent implements OnDestroy {
+export class CustomerEditDialogComponent implements OnDestroy {
   private readonly formBuilder = inject(NonNullableFormBuilder);
+  private readonly dialogRef = inject(MatDialogRef<CustomerEditDialogComponent, boolean>);
   private readonly customersService = inject(CustomersService);
   private readonly snackBar = inject(MatSnackBar);
-  private readonly router = inject(Router);
   private readonly destroyed$ = new Subject<void>();
 
+  readonly customer = inject(MAT_DIALOG_DATA) as Customer;
+  private readonly initialBirthDate = toCustomerDate(this.customer.birthDate);
   readonly maxBirthDate = new Date();
   readonly customerForm = this.formBuilder.group(
     {
-      name: ['', [
+      name: [this.customer.name, [
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(50),
         noWhitespaceValidator,
         lettersOnlyValidator
       ]],
-      lastName: ['', [
+      lastName: [this.customer.lastName, [
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(50),
         noWhitespaceValidator,
         lettersOnlyValidator
       ]],
-      age: this.formBuilder.control<number | null>(null, [
+      age: this.formBuilder.control<number | null>(calculateAge(this.initialBirthDate), [
         Validators.required,
         Validators.min(1),
-        Validators.max(120),
-        positiveIntegerValidator
+        Validators.max(120)
       ]),
-      birthDate: this.formBuilder.control<Date | null>(null, [
-        Validators.required,
-        notFutureDateValidator(this.maxBirthDate)
-      ])
-    },
-    { validators: ageBirthDateConsistencyValidator }
+      birthDate: this.formBuilder.control<Date | null>(
+        this.initialBirthDate,
+        [Validators.required, notFutureDateValidator(this.maxBirthDate)]
+      )
+    }
   );
 
   isSaving = false;
@@ -69,7 +66,6 @@ export class CustomerFormPageComponent implements OnDestroy {
         this.customerForm.controls.age.setValue(calculateAge(birthDate), {
           emitEvent: false
         });
-        this.customerForm.updateValueAndValidity({ emitEvent: false });
         this.customerForm.controls.age.markAsTouched();
       });
   }
@@ -80,38 +76,35 @@ export class CustomerFormPageComponent implements OnDestroy {
       return;
     }
 
-    const formValue = this.customerForm.getRawValue();
-    const customer: Customer = {
-      name: formValue.name.trim(),
-      lastName: formValue.lastName.trim(),
-      age: formValue.age as number,
-      birthDate: formValue.birthDate as Date
-    };
+    if (!this.customer.id) {
+      this.showError();
+      return;
+    }
 
+    const value = this.customerForm.getRawValue();
     this.isSaving = true;
-    this.customersService.createCustomer(customer).pipe(
+    this.customersService.updateCustomer(this.customer.id, {
+      name: value.name.trim(),
+      lastName: value.lastName.trim(),
+      age: value.age as number,
+      birthDate: value.birthDate as Date
+    }).pipe(
       finalize(() => {
         this.isSaving = false;
       })
     ).subscribe({
       next: () => {
-        this.snackBar.open('Cliente registrado correctamente.', 'Cerrar', {
+        this.snackBar.open('Cliente actualizado correctamente.', 'Cerrar', {
           duration: 3500
         });
-        this.router.navigate(['/customers']);
+        this.dialogRef.close(true);
       },
-      error: (error: unknown) => {
-        if (!environment.production) {
-          console.error('Error al registrar el cliente en Firestore:', error);
-        }
-
-        this.snackBar.open(
-          this.getSaveErrorMessage(error),
-          'Cerrar',
-          { duration: 5000 }
-        );
-      }
+      error: () => this.showError()
     });
+  }
+
+  cancel(): void {
+    this.dialogRef.close(false);
   }
 
   getNameErrorMessage(): string {
@@ -137,7 +130,7 @@ export class CustomerFormPageComponent implements OnDestroy {
       return 'La edad no puede ser mayor a 120.';
     }
 
-    return control.hasError('integer') ? 'La edad debe ser un número entero.' : '';
+    return '';
   }
 
   getBirthDateErrorMessage(): string {
@@ -184,23 +177,11 @@ export class CustomerFormPageComponent implements OnDestroy {
       : '';
   }
 
-  private getSaveErrorMessage(error: unknown): string {
-    if (!(error instanceof FirebaseError)) {
-      return 'No pudimos registrar el cliente. Intentá nuevamente.';
-    }
-
-    switch (error.code) {
-      case 'permission-denied':
-      case 'firestore/permission-denied':
-        return 'No tenés permisos para registrar clientes. Revisá las reglas de Firestore.';
-      case 'failed-precondition':
-      case 'firestore/failed-precondition':
-        return 'Firestore no está listo para guardar datos en este proyecto.';
-      case 'unavailable':
-      case 'firestore/unavailable':
-        return 'Firestore no está disponible. Verificá tu conexión e intentá nuevamente.';
-      default:
-        return 'No pudimos registrar el cliente. Intentá nuevamente.';
-    }
+  private showError(): void {
+    this.snackBar.open(
+      'No pudimos actualizar el cliente. Intentá nuevamente.',
+      'Cerrar',
+      { duration: 5000 }
+    );
   }
 }
