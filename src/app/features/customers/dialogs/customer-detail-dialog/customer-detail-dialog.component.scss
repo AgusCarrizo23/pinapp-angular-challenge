@@ -1,0 +1,114 @@
+:host {
+  display: block;
+}
+
+.customer-detail-dialog {
+  border: 1px solid #e5e7eb;
+  border-radius: 1rem;
+  background: #ffffff;
+  box-shadow: 0 0.25rem 1.25rem rgba(15, 42, 95, 0.06);
+  overflow: hidden;
+}
+
+.customer-detail-dialog__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.5rem;
+}
+
+.customer-detail-dialog__header h2 {
+  margin: 0 0 0.35rem;
+  color: #0f172a;
+  font-size: 1.4rem;
+}
+
+.customer-detail-dialog__header p,
+.customer-detail-dialog__identity span {
+  margin: 0;
+  color: white;
+}
+
+.customer-detail-dialog__content {
+  padding: 1.5rem;
+}
+
+.customer-detail-dialog__identity {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.customer-detail-dialog__identity > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.customer-detail-dialog__identity strong {
+  color: #0f172a;
+  font-size: 1.1rem;
+}
+
+.customer-detail-dialog__avatar {
+  width: 3.75rem;
+  height: 3.75rem;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  color: #ffffff;
+  background: #2563eb;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.customer-detail-dialog__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+  margin: 0;
+}
+
+.customer-detail-dialog__grid > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.customer-detail-dialog__grid dt {
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+.customer-detail-dialog__grid dd {
+  margin: 0;
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.customer-detail-dialog__footer {
+  padding: 1rem 1.5rem;
+}
+
+.customer-detail-dialog__footer button {
+  min-width: 6.5rem;
+}
+
+@media (max-width: 36rem) {
+  .customer-detail-dialog__header,
+  .customer-detail-dialog__content {
+    padding: 1.25rem;
+  }
+
+  .customer-detail-dialog__grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .customer-detail-dialog__footer button {
+    width: 100%;
+  }
+}

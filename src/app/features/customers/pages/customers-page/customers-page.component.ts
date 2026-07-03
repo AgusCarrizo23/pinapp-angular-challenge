@@ -1,9 +1,11 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { Customer } from '../../interfaces/customer';
+import { CustomerDetailDialogComponent } from '../../dialogs/customer-detail-dialog/customer-detail-dialog.component';
 import { CustomersService } from '../../services/customers.service';
 import {
   CustomerSortOption,
@@ -23,6 +25,7 @@ interface SortOption {
 })
 export class CustomersPageComponent implements OnInit, OnDestroy {
   private readonly customersService = inject(CustomersService);
+  private readonly dialog = inject(MatDialog);
   private readonly router = inject(Router);
   private customersSubscription?: Subscription;
 
@@ -109,8 +112,13 @@ export class CustomersPageComponent implements OnInit, OnDestroy {
   }
 
   viewCustomer(customer: Customer): void {
-    void customer;
-    // luego agregar la navegacion a la pagina de detalles del cliente.
+    this.dialog.open(CustomerDetailDialogComponent, {
+      width: '40.625rem',
+      maxWidth: '95vw',
+      autoFocus: false,
+      restoreFocus: true,
+      data: customer
+    });
   }
 
   editCustomer(customer: Customer): void {

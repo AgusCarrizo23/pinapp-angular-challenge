@@ -1,0 +1,58 @@
+<mat-card class="customer-detail-dialog" aria-labelledby="customer-detail-dialog-title">
+  <header class="customer-detail-dialog__header">
+    <div>
+      <h2 id="customer-detail-dialog-title">Detalle del cliente</h2>
+      <p>Información registrada del cliente.</p>
+    </div>
+
+    <button
+      mat-icon-button
+      type="button"
+      aria-label="Cerrar detalle del cliente"
+      (click)="close()"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+
+  <mat-divider></mat-divider>
+
+  <mat-card-content class="customer-detail-dialog__content">
+    <div class="customer-detail-dialog__identity">
+      <span class="customer-detail-dialog__avatar" aria-hidden="true">{{ initials }}</span>
+      <div>
+        <strong>{{ fullName }}</strong>
+        <span>Cliente registrado</span>
+      </div>
+    </div>
+
+    <dl class="customer-detail-dialog__grid">
+      <div>
+        <dt>Nombre</dt>
+        <dd>{{ customer.name }}</dd>
+      </div>
+      <div>
+        <dt>Apellido</dt>
+        <dd>{{ customer.lastName }}</dd>
+      </div>
+      <div>
+        <dt>Edad</dt>
+        <dd>{{ customer.age }} años</dd>
+      </div>
+      <div>
+        <dt>Fecha de nacimiento</dt>
+        <dd>{{ customer.birthDate | customerBirthDate }}</dd>
+      </div>
+      <div>
+        <dt>Fecha de creación</dt>
+        <dd>{{ customer.createdAt | customerBirthDate }}</dd>
+      </div>
+    </dl>
+  </mat-card-content>
+
+  <mat-divider></mat-divider>
+
+  <mat-card-actions class="customer-detail-dialog__footer" align="end">
+    <button mat-flat-button color="primary" type="button" (click)="close()">Cerrar</button>
+  </mat-card-actions>
+</mat-card>
