@@ -1,3 +1,25 @@
-<h1>404</h1>
-<p>Página no encontrada</p>
-<p>La URL solicitada no existe</p>
+<section class="not-found-page" aria-labelledby="not-found-title">
+  <mat-card class="not-found-card">
+    <div class="not-found-card__visual" aria-hidden="true">
+      <span class="not-found-card__orbit"></span>
+      <mat-icon>travel_explore</mat-icon>
+      <span class="not-found-card__badge">?</span>
+    </div>
+
+    <div class="not-found-card__code" aria-label="Error 404">404</div>
+    <h1 id="not-found-title">¡Ups! Página no encontrada</h1>
+    <p>La página que estás buscando no existe o fue movida.</p>
+
+    <div class="not-found-card__actions">
+      <a mat-flat-button color="primary" routerLink="/dashboard">
+        <mat-icon aria-hidden="true">dashboard</mat-icon>
+        Volver al Dashboard
+      </a>
+
+      <button mat-button type="button" (click)="goBack()">
+        <mat-icon aria-hidden="true">arrow_back</mat-icon>
+        Ir a la página anterior
+      </button>
+    </div>
+  </mat-card>
+</section>

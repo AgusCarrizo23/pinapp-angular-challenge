@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { AbstractControl, NonNullableFormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs';
 
 import { AuthService } from '../../services/auth.service';
@@ -14,6 +14,7 @@ export class LoginComponent {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
 
   readonly loginForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
@@ -53,7 +54,7 @@ export class LoginComponent {
       })
     ).subscribe({
       next: () => {
-        this.router.navigate(['/dashboard']);
+        this.router.navigateByUrl(this.getReturnUrl());
       },
       error: (error: Error) => {
         this.loginError = error.message;
@@ -87,5 +88,20 @@ export class LoginComponent {
     }
 
     return '';
+  }
+
+  private getReturnUrl(): string {
+    const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+
+    if (
+      !returnUrl
+      || !returnUrl.startsWith('/')
+      || returnUrl.startsWith('//')
+      || returnUrl.startsWith('/login')
+    ) {
+      return '/dashboard';
+    }
+
+    return returnUrl;
   }
 }
