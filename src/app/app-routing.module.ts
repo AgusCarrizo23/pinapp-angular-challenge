@@ -47,7 +47,10 @@ const routes: Routes = [
       },
       {
         path: 'not-found',
-        component: NotFoundComponent
+        component: NotFoundComponent,
+        data: {
+          isPublic: false
+        }
       },
       {
         path: '**',
@@ -57,7 +60,10 @@ const routes: Routes = [
   },
   {
     path: 'not-found',
-    component: NotFoundComponent
+    component: NotFoundComponent,
+    data: {
+      isPublic: true
+    }
   },
   {
     path: '**',

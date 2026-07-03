@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-not-found',
@@ -7,7 +8,14 @@ import { Location } from '@angular/common';
   styleUrls: ['./not-found.component.scss']
 })
 export class NotFoundComponent {
-  constructor(private readonly location: Location) {}
+  readonly isPublic: boolean;
+
+  constructor(
+    private readonly location: Location,
+    route: ActivatedRoute
+  ) {
+    this.isPublic = route.snapshot.data['isPublic'] === true;
+  }
 
   goBack(): void {
     this.location.back();
