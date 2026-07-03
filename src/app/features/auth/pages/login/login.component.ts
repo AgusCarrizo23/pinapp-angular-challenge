@@ -1,5 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { AbstractControl, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { finalize } from 'rxjs';
+
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -8,6 +12,8 @@ import { AbstractControl, NonNullableFormBuilder, Validators } from '@angular/fo
 })
 export class LoginComponent {
   private readonly formBuilder = inject(NonNullableFormBuilder);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
   readonly loginForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
@@ -15,6 +21,8 @@ export class LoginComponent {
   });
 
   hidePassword = true;
+  isLoading = false;
+  loginError = '';
 
   get emailControl(): AbstractControl<string, string> {
     return this.loginForm.controls.email;
@@ -26,6 +34,31 @@ export class LoginComponent {
 
   togglePasswordVisibility(): void {
     this.hidePassword = !this.hidePassword;
+  }
+
+  onSubmit(): void {
+    if (this.loginForm.invalid || this.isLoading) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
+
+    const { email, password } = this.loginForm.getRawValue();
+
+    this.isLoading = true;
+    this.loginError = '';
+
+    this.authService.login(email, password).pipe(
+      finalize(() => {
+        this.isLoading = false;
+      })
+    ).subscribe({
+      next: () => {
+        this.router.navigate(['/home']);
+      },
+      error: (error: Error) => {
+        this.loginError = error.message;
+      }
+    });
   }
 
   shouldShowError(control: AbstractControl<string, string>): boolean {

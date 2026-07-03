@@ -9,7 +9,12 @@
       <p class="login-card__subtitle">Ingrese sus credenciales para continuar</p>
     </div>
 
-    <form class="login-form" [formGroup]="loginForm" novalidate>
+    <form
+      class="login-form"
+      [formGroup]="loginForm"
+      (ngSubmit)="onSubmit()"
+      novalidate
+    >
       <mat-form-field appearance="outline">
         <mat-label>Email</mat-label>
         <input
@@ -48,15 +53,20 @@
         </mat-error>
       </mat-form-field>
 
+      <p *ngIf="loginError" class="login-form__error" role="alert">
+        {{ loginError }}
+      </p>
+
       <button
         mat-flat-button
         color="primary"
-        type="button"
+        type="submit"
         class="login-form__submit"
-        [disabled]="loginForm.invalid"
+        [disabled]="loginForm.invalid || isLoading"
       >
-        <span>Iniciar sesion</span>
+        <span>{{ isLoading ? 'Ingresando...' : 'Iniciar sesion' }}</span>
         <mat-progress-spinner
+          *ngIf="isLoading"
           class="login-form__spinner"
           mode="indeterminate"
           diameter="18"

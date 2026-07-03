@@ -15,6 +15,10 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
+    path: 'home',
+    component: HomeComponent
+  },
+  {
     path: 'not-found',
     component: NotFoundComponent
   },
