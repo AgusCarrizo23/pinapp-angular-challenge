@@ -107,4 +107,25 @@ export class CustomersService {
       };
     });
   }
+
+  deleteCustomer(id: string): Observable<void> {
+    return new Observable<void>((subscriber) => {
+      let isDestroyed = false;
+
+      import('firebase/firestore')
+        .then(async ({ deleteDoc, doc, getFirestore }) => {
+          await deleteDoc(doc(getFirestore(this.firebaseApp), 'customers', id));
+
+          if (!isDestroyed) {
+            subscriber.next();
+            subscriber.complete();
+          }
+        })
+        .catch((error: unknown) => subscriber.error(error));
+
+      return () => {
+        isDestroyed = true;
+      };
+    });
+  }
 }
