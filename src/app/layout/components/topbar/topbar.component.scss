@@ -61,11 +61,17 @@
 }
 
 .topbar__profile {
-  gap: 0.625rem;
   height: 2.75rem;
   padding: 0 0.5rem 0 0.75rem;
   border-radius: 0.75rem;
   color: #ffffff;
+}
+
+.topbar__profile-content {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  white-space: nowrap;
 }
 
 .topbar__avatar {

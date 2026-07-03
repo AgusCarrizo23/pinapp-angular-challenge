@@ -11,15 +11,22 @@
     <p>La página que estás buscando no existe o fue movida.</p>
 
     <div class="not-found-card__actions">
-      <a mat-flat-button color="primary" routerLink="/dashboard">
-        <mat-icon aria-hidden="true">dashboard</mat-icon>
-        Volver al Dashboard
+      <a *ngIf="isPublic" mat-flat-button color="primary" routerLink="/login">
+        <mat-icon aria-hidden="true">login</mat-icon>
+        Volver al login
       </a>
 
-      <button mat-button type="button" (click)="goBack()">
-        <mat-icon aria-hidden="true">arrow_back</mat-icon>
-        Ir a la página anterior
-      </button>
+      <ng-container *ngIf="!isPublic">
+        <a mat-flat-button color="primary" routerLink="/dashboard">
+          <mat-icon aria-hidden="true">dashboard</mat-icon>
+          Volver al Dashboard
+        </a>
+
+        <button mat-button type="button" (click)="goBack()">
+          <mat-icon aria-hidden="true">arrow_back</mat-icon>
+          Ir a la página anterior
+        </button>
+      </ng-container>
     </div>
   </mat-card>
 </section>

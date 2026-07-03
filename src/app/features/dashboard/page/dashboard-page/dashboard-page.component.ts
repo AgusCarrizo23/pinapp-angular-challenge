@@ -43,7 +43,6 @@ export class DashboardPageComponent {
         standardDeviation: getAgeStandardDeviation(customers)
       })),
       catchError(() => of(EMPTY_METRICS)),
-      startWith(EMPTY_METRICS),
       shareReplay({ bufferSize: 1, refCount: true })
     );
 }

@@ -8,31 +8,40 @@
     </p>
   </header>
 
-  <div *ngIf="metrics$ | async as metrics" class="dashboard__metrics">
-    <app-metric-card
-      title="Clientes registrados"
-      [value]="metrics.totalCustomers"
-      subtitle="Total de clientes"
-      icon="groups"
-      tone="blue"
-    ></app-metric-card>
+  <ng-container *ngIf="metrics$ | async as metrics; else metricsLoading">
+    <div class="dashboard__metrics">
+      <app-metric-card
+        title="Clientes registrados"
+        [value]="metrics.totalCustomers"
+        subtitle="Total de clientes"
+        icon="groups"
+        tone="blue"
+      ></app-metric-card>
 
-    <app-metric-card
-      title="Promedio de edad"
-      [value]="metrics.averageAge | number: '1.1-1'"
-      subtitle="Años"
-      icon="bar_chart"
-      tone="green"
-    ></app-metric-card>
+      <app-metric-card
+        title="Promedio de edad"
+        [value]="metrics.averageAge | number: '1.1-1'"
+        subtitle="Años"
+        icon="bar_chart"
+        tone="green"
+      ></app-metric-card>
 
-    <app-metric-card
-      title="Desviación estándar"
-      [value]="metrics.standardDeviation | number: '1.1-1'"
-      subtitle="Años"
-      icon="show_chart"
-      tone="purple"
-    ></app-metric-card>
-  </div>
+      <app-metric-card
+        title="Desviación estándar"
+        [value]="metrics.standardDeviation | number: '1.1-1'"
+        subtitle="Años"
+        icon="show_chart"
+        tone="purple"
+      ></app-metric-card>
+    </div>
+  </ng-container>
+
+  <ng-template #metricsLoading>
+    <div class="dashboard__metrics-loading" role="status" aria-live="polite">
+      <mat-progress-spinner mode="indeterminate" diameter="42"></mat-progress-spinner>
+      <span>Cargando métricas...</span>
+    </div>
+  </ng-template>
 
   <mat-card class="dashboard__quick-actions">
     <div class="dashboard__section-heading">

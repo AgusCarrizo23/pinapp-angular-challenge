@@ -191,12 +191,19 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.625rem;
   border-radius: 0.75rem;
   font-size: 0.95rem;
   font-weight: 600;
   letter-spacing: 0.005em;
   box-shadow: 0 0.625rem 1.5rem rgba(15, 79, 216, 0.22);
+}
+
+.login-form__submit-content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  white-space: nowrap;
 }
 
 .login-form__submit:not(:disabled) {
@@ -212,6 +219,7 @@
 }
 
 .login-form__spinner {
+  flex: 0 0 auto;
   --mdc-circular-progress-active-indicator-color: #ffffff;
 }
 
