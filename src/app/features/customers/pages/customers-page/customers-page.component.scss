@@ -1,0 +1,155 @@
+:host {
+  display: block;
+}
+
+.customers-page {
+  max-width: 76rem;
+  margin: 0 auto;
+}
+
+.customers-page__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.customers-page__header h1 {
+  margin: 0 0 0.5rem;
+  color: #0f172a;
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  letter-spacing: -0.03em;
+}
+
+.customers-page__header p {
+  margin: 0;
+  color: #64748b;
+}
+
+.customers-page__new-button {
+  border-radius: 0.75rem;
+}
+
+.customers-card {
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 1rem;
+  background: #ffffff;
+  box-shadow: 0 0.25rem 1.25rem rgba(15, 42, 95, 0.06);
+}
+
+.customers-card__filters {
+  display: grid;
+  grid-template-columns: minmax(16rem, 1fr) minmax(14rem, 19rem);
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.customers-card__search mat-icon {
+  color: #64748b;
+}
+
+.customers-table-wrapper {
+  overflow-x: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.875rem;
+}
+
+table {
+  width: 100%;
+  min-width: 48rem;
+}
+
+th.mat-mdc-header-cell {
+  color: #475569;
+  background: #f8fafc;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.customers-table__actions-heading,
+.customers-table__actions {
+  width: 9rem;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.customers-table__actions button {
+  color: #64748b;
+}
+
+.customers-table__actions button:hover {
+  color: #2563eb;
+}
+
+.customers-table_actions .customers-table_delete:hover {
+  color: #dc2626;
+}
+
+.customers-state {
+  min-height: 17rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.customers-state__icon {
+  width: 4rem;
+  height: 4rem;
+  display: grid;
+  place-items: center;
+  margin-bottom: 1rem;
+  border-radius: 50%;
+  color: #2563eb;
+  background: #eaf0ff;
+}
+
+.customers-state__icon mat-icon {
+  width: 2rem;
+  height: 2rem;
+  font-size: 2rem;
+}
+
+.customers-state h2 {
+  margin: 0 0 0.4rem;
+  color: #0f172a;
+}
+
+.customers-state p {
+  margin: 0 0 1.25rem;
+  color: #64748b;
+}
+
+.customers-state--error .customers-state__icon {
+  color: #dc2626;
+  background: #fef2f2;
+}
+
+.customers-state > mat-progress-spinner {
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 48rem) {
+  .customers-page__header {
+    align-items: stretch;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+  }
+
+  .customers-page__new-button {
+    width: 100%;
+  }
+
+  .customers-card {
+    padding: 1rem;
+  }
+
+  .customers-card__filters {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}

@@ -24,7 +24,6 @@ import { LoginComponent } from './features/auth/pages/login/login.component';
 import { AppShellComponent } from './layout/components/app-shell/app-shell.component';
 import { TopbarComponent } from './layout/components/topbar/topbar.component';
 import { SidebarComponent } from './layout/components/sidebar/sidebar.component';
-import { CustomersPlaceholderComponent } from './pages/customers-placeholder/customers-placeholder.component';
 import { CustomerFormPlaceholderComponent } from './pages/customer-form-placeholder/customer-form-placeholder.component';
 import { DashboardPageComponent } from './features/dashboard/page/dashboard-page/dashboard-page.component';
 import { MetricCardComponent } from './shared/components/metric-card/metric-card.component';
@@ -39,7 +38,6 @@ import { QuickActionCardComponent } from './shared/components/quick-action-card/
     AppShellComponent,
     TopbarComponent,
     SidebarComponent,
-    CustomersPlaceholderComponent,
     CustomerFormPlaceholderComponent,
     DashboardPageComponent,
     MetricCardComponent,
