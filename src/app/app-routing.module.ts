@@ -6,6 +6,7 @@ import { authGuard } from './core/guards/auth.guard';
 import { AppShellComponent } from './layout/components/app-shell/app-shell.component';
 import { CustomerFormPlaceholderComponent } from './pages/customer-form-placeholder/customer-form-placeholder.component';
 import { DashboardPageComponent } from './features/dashboard/page/dashboard-page/dashboard-page.component';
+import { authMatchGuard } from './core/guards/auth-match.guard';
 
 const routes: Routes = [
   {
@@ -15,6 +16,7 @@ const routes: Routes = [
   {
     path: '',
     component: AppShellComponent,
+    canMatch: [authMatchGuard],
     canActivate: [authGuard],
     children: [
       {
@@ -42,6 +44,14 @@ const routes: Routes = [
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full'
+      },
+      {
+        path: 'not-found',
+        component: NotFoundComponent
+      },
+      {
+        path: '**',
+        redirectTo: 'not-found'
       }
     ]
   },
