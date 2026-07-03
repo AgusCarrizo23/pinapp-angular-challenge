@@ -22,13 +22,6 @@ const routes: Routes = [
         component: DashboardPageComponent
       },
       {
-        path: 'customers/new',
-        component: CustomerFormPlaceholderComponent,
-        data: {
-          mode: 'create'
-        }
-      },
-      {
         path: 'customers/:id/edit',
         component: CustomerFormPlaceholderComponent,
         data: {
