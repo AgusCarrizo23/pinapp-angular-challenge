@@ -1,0 +1,46 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+}
+
+.app-shell {
+  min-height: 100dvh;
+  background: #f5f7fb;
+}
+
+.app-shell__container {
+  height: calc(100dvh - 4rem);
+  margin-top: 4rem;
+  background: #f5f7fb;
+}
+
+.app-shell__sidenav {
+  width: 17rem;
+  border-right: 1px solid #e5e7eb;
+  background: #ffffff;
+}
+
+.app-shell__content {
+  background: #f5f7fb;
+}
+
+.app-shell__main {
+  min-height: 100%;
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+  box-sizing: border-box;
+}
+
+@media (max-width: 47.9375rem) {
+  .app-shell__container {
+    height: calc(100dvh - 3.75rem);
+    margin-top: 3.75rem;
+  }
+
+  .app-shell__sidenav {
+    width: min(17rem, 84vw);
+  }
+
+  .app-shell__main {
+    padding: 1.25rem 1rem;
+  }
+}

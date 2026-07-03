@@ -28,16 +28,16 @@ describe('authGuard', () => {
   it('allows access when the user is authenticated', async () => {
     authService.isAuthenticated$ = of(true);
 
-    const result = await executeGuard('/home');
+    const result = await executeGuard('/dashboard');
 
     expect(result).toBeTrue();
   });
 
   it('redirects unauthenticated users to login with the return URL', async () => {
-    const result = await executeGuard('/home');
+    const result = await executeGuard('/dashboard');
 
     expect(result instanceof UrlTree).toBeTrue();
-    expect(router.serializeUrl(result as UrlTree)).toBe('/login?returnUrl=%2Fhome');
+    expect(router.serializeUrl(result as UrlTree)).toBe('/login?returnUrl=%2Fdashboard');
   });
 
   function executeGuard(url: string): Promise<boolean | UrlTree> {

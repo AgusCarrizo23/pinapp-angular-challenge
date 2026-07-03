@@ -1,0 +1,31 @@
+<div class="app-shell">
+  <app-topbar
+    [userName]="(currentUser$ | async)?.displayName || 'Agustina'"
+    [isLoggingOut]="isLoggingOut"
+    (menuToggle)="toggleSidebar()"
+    (logoutRequested)="logout()"
+  ></app-topbar>
+
+  <mat-sidenav-container class="app-shell__container">
+    <mat-sidenav
+      #sidenav
+      class="app-shell__sidenav"
+      [mode]="isMobile ? 'over' : 'side'"
+      [opened]="!isMobile"
+      [autoFocus]="false"
+      aria-label="Navegación principal"
+    >
+      <app-sidebar
+        [isLoggingOut]="isLoggingOut"
+        (navigated)="closeSidebarOnMobile()"
+        (logoutRequested)="logout()"
+      ></app-sidebar>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="app-shell__content">
+      <main class="app-shell__main">
+        <router-outlet></router-outlet>
+      </main>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

@@ -1,0 +1,57 @@
+<mat-toolbar class="topbar">
+  <div class="topbar__brand-group">
+    <button
+      mat-icon-button
+      type="button"
+      class="topbar__menu-button"
+      aria-label="Alternar menú principal"
+      (click)="menuToggle.emit()"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <a class="topbar__brand" routerLink="/dashboard" aria-label="Ir al Dashboard">
+      <span class="topbar__logo" aria-hidden="true">
+        <mat-icon>grid_view</mat-icon>
+      </span>
+      <span>PinApp Challenge</span>
+    </a>
+  </div>
+
+  <div class="topbar__account">
+    <button
+      mat-button
+      type="button"
+      class="topbar__profile"
+      [matMenuTriggerFor]="accountMenu"
+      aria-label="Abrir menú de usuario"
+    >
+      <span class="topbar__user-name">{{ userName }}</span>
+      <span class="topbar__avatar" aria-hidden="true">{{ userInitial }}</span>
+      <mat-icon class="topbar__chevron">expand_more</mat-icon>
+    </button>
+
+    <button
+      mat-icon-button
+      type="button"
+      class="topbar__logout"
+      aria-label="Cerrar sesión"
+      [disabled]="isLoggingOut"
+      (click)="logoutRequested.emit()"
+    >
+      <mat-icon>logout</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+
+<mat-menu #accountMenu="matMenu" xPosition="before">
+  <div class="account-menu__identity" mat-menu-item disabled>
+    <mat-icon>account_circle</mat-icon>
+    <span>{{ userName }}</span>
+  </div>
+  <mat-divider></mat-divider>
+  <button mat-menu-item type="button" [disabled]="isLoggingOut" (click)="logoutRequested.emit()">
+    <mat-icon>logout</mat-icon>
+    <span>Cerrar sesión</span>
+  </button>
+</mat-menu>
