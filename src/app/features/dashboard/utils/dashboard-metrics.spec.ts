@@ -20,6 +20,10 @@ describe('dashboard metrics', () => {
   });
 
   function createCustomers(...ages: number[]): Customer[] {
-    return ages.map((age) => ({ age }));
+    return ages.map((age) => ({
+      name: 'Test',
+      lastName: 'User',
+      age,
+    }));
   }
 });

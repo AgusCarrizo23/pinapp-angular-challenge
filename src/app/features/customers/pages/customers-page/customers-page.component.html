@@ -1,0 +1,149 @@
+<section class="customers-page" aria-labelledby="customers-title">
+  <header class="customers-page__header">
+    <div>
+      <h1 id="customers-title">Clientes</h1>
+      <p>Listado de todos los clientes registrados.</p>
+    </div>
+
+    <a mat-flat-button color="primary" routerLink="/customers/new" class="customers-page__new-button">
+      <mat-icon aria-hidden="true">add</mat-icon>
+      Nuevo cliente
+    </a>
+  </header>
+
+  <mat-card class="customers-card">
+    <div class="customers-card__filters">
+      <mat-form-field appearance="outline" class="customers-card__search">
+        <mat-label>Buscar clientes</mat-label>
+        <mat-icon matPrefix aria-hidden="true">search</mat-icon>
+        <input
+          #searchInput
+          matInput
+          type="search"
+          placeholder="Buscar por nombre o apellido..."
+          [value]="searchTerm"
+          (input)="onSearchChange(searchInput.value)"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="customers-card__sort">
+        <mat-label>Ordenar por</mat-label>
+        <mat-select [value]="sortOption" (valueChange)="onSortChange($event)">
+          <mat-option *ngFor="let option of sortOptions" [value]="option.value">
+            {{ option.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div *ngIf="isLoading" class="customers-state" role="status">
+      <mat-progress-spinner mode="indeterminate" diameter="44"></mat-progress-spinner>
+      <p>Cargando clientes...</p>
+    </div>
+
+    <div *ngIf="!isLoading && errorMessage" class="customers-state customers-state--error" role="alert">
+      <span class="customers-state__icon" aria-hidden="true">
+        <mat-icon>error_outline</mat-icon>
+      </span>
+      <h2>{{ errorMessage }}</h2>
+      <p>Intentá nuevamente en unos segundos.</p>
+      <button mat-stroked-button color="primary" type="button" (click)="loadCustomers()">
+        <mat-icon aria-hidden="true">refresh</mat-icon>
+        Reintentar
+      </button>
+    </div>
+
+    <ng-container *ngIf="!isLoading && !errorMessage">
+      <div *ngIf="customers.length === 0" class="customers-state">
+        <span class="customers-state__icon" aria-hidden="true">
+          <mat-icon>group_add</mat-icon>
+        </span>
+        <h2>No hay clientes registrados todavía.</h2>
+        <p>Registrá tu primer cliente para comenzar.</p>
+        <a mat-flat-button color="primary" routerLink="/customers/new">Crear cliente</a>
+      </div>
+
+      <div *ngIf="customers.length > 0 && filteredCustomers.length === 0" class="customers-state">
+        <span class="customers-state__icon" aria-hidden="true">
+          <mat-icon>search_off</mat-icon>
+        </span>
+        <h2>No encontramos clientes.</h2>
+        <p>Probá con otro nombre o apellido.</p>
+      </div>
+
+      <div *ngIf="filteredCustomers.length > 0" class="customers-table-wrapper">
+        <table mat-table [dataSource]="visibleCustomers" aria-label="Listado de clientes">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Nombre</th>
+            <td mat-cell *matCellDef="let customer">{{ customer.name }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="lastName">
+            <th mat-header-cell *matHeaderCellDef>Apellido</th>
+            <td mat-cell *matCellDef="let customer">{{ customer.lastName }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="age">
+            <th mat-header-cell *matHeaderCellDef>Edad</th>
+            <td mat-cell *matCellDef="let customer">{{ customer.age }} años</td>
+          </ng-container>
+
+          <ng-container matColumnDef="birthDate">
+            <th mat-header-cell *matHeaderCellDef>Fecha de nacimiento</th>
+            <td mat-cell *matCellDef="let customer">
+              {{ customer.birthDate | customerBirthDate }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef class="customers-table__actions-heading">Acciones</th>
+            <td mat-cell *matCellDef="let customer" class="customers-table__actions">
+              <button
+                mat-icon-button
+                type="button"
+                aria-label="Ver detalle del cliente"
+                matTooltip="Ver detalle"
+                (click)="viewCustomer(customer)"
+              >
+                <mat-icon>visibility</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                type="button"
+                aria-label="Editar cliente"
+                matTooltip="Editar"
+                (click)="editCustomer(customer)"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                type="button"
+                class="customers-table__delete"
+                aria-label="Eliminar cliente"
+                matTooltip="Eliminar"
+                (click)="deleteCustomer(customer)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+
+      <mat-paginator
+        *ngIf="filteredCustomers.length > 0"
+        aria-label="Paginación de clientes"
+        [length]="filteredCustomers.length"
+        [pageIndex]="pageIndex"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions"
+        [showFirstLastButtons]="true"
+        (page)="onPageChange($event)"
+      ></mat-paginator>
+    </ng-container>
+  </mat-card>
+</section>

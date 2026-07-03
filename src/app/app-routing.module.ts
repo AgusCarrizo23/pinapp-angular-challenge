@@ -5,7 +5,6 @@ import { LoginComponent } from './features/auth/pages/login/login.component';
 import { authGuard } from './core/guards/auth.guard';
 import { AppShellComponent } from './layout/components/app-shell/app-shell.component';
 import { CustomerFormPlaceholderComponent } from './pages/customer-form-placeholder/customer-form-placeholder.component';
-import { CustomersPlaceholderComponent } from './pages/customers-placeholder/customers-placeholder.component';
 import { DashboardPageComponent } from './features/dashboard/page/dashboard-page/dashboard-page.component';
 
 const routes: Routes = [
@@ -24,11 +23,22 @@ const routes: Routes = [
       },
       {
         path: 'customers/new',
-        component: CustomerFormPlaceholderComponent
+        component: CustomerFormPlaceholderComponent,
+        data: {
+          mode: 'create'
+        }
+      },
+      {
+        path: 'customers/:id/edit',
+        component: CustomerFormPlaceholderComponent,
+        data: {
+          mode: 'edit'
+        }
       },
       {
         path: 'customers',
-        component: CustomersPlaceholderComponent
+        loadChildren: () => import('./features/customers/customers.module')
+          .then((module) => module.CustomersModule)
       },
       {
         path: 'home',
