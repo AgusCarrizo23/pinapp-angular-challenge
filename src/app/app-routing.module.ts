@@ -7,7 +7,7 @@ import { LoginComponent } from './features/auth/pages/login/login.component';
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent,
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
