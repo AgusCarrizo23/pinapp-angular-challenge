@@ -1,0 +1,14 @@
+<mat-card class="quick-action" [ngClass]="'quick-action--' + tone">
+  <a class="quick-action__link" [routerLink]="route">
+    <span class="quick-action__icon" aria-hidden="true">
+      <mat-icon>{{ icon }}</mat-icon>
+    </span>
+
+    <span class="quick-action__content">
+      <strong>{{ title }}</strong>
+      <span>{{ description }}</span>
+    </span>
+
+    <mat-icon class="quick-action__arrow" aria-hidden="true">chevron_right</mat-icon>
+  </a>
+</mat-card>

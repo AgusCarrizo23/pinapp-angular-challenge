@@ -1,0 +1,94 @@
+:host {
+  display: block;
+}
+
+.metric-card {
+  min-height: 10.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 1rem;
+  background: #ffffff;
+  box-shadow: 0 0.25rem 1.25rem rgba(15, 42, 95, 0.06);
+  box-sizing: border-box;
+}
+
+.metric-card__icon {
+  width: 4.5rem;
+  height: 4.5rem;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 50%;
+}
+
+.metric-card__icon mat-icon {
+  width: 2rem;
+  height: 2rem;
+  font-size: 2rem;
+}
+
+.metric-card__content {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-card__title {
+  color: #475569;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.metric-card__value {
+  margin: 0.3rem 0 0.2rem;
+  color: #0f172a;
+  font-size: 2rem;
+  line-height: 1.1;
+}
+
+.metric-card__subtitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.metric-card--blue .metric-card__icon {
+  color: #2563eb;
+  background: #eaf0ff;
+}
+
+.metric-card--blue .metric-card__subtitle {
+  color: #2563eb;
+}
+
+.metric-card--green .metric-card__icon {
+  color: #16a34a;
+  background: #eaf8ef;
+}
+
+.metric-card--green .metric-card__subtitle {
+  color: #16a34a;
+}
+
+.metric-card--purple .metric-card__icon {
+  color: #7c3aed;
+  background: #f0ebff;
+}
+
+.metric-card--purple .metric-card__subtitle {
+  color: #7c3aed;
+}
+
+@media (max-width: 30rem) {
+  .metric-card {
+    min-height: 9.5rem;
+  }
+
+  .metric-card__icon {
+    width: 4rem;
+    height: 4rem;
+  }
+}

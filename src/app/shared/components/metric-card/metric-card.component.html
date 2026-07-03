@@ -1,0 +1,11 @@
+<mat-card class="metric-card" [ngClass]="'metric-card--' + tone">
+  <div class="metric-card__icon" aria-hidden="true">
+    <mat-icon>{{ icon }}</mat-icon>
+  </div>
+
+  <div class="metric-card__content">
+    <span class="metric-card__title">{{ title }}</span>
+    <strong class="metric-card__value">{{ value }}</strong>
+    <span class="metric-card__subtitle">{{ subtitle }}</span>
+  </div>
+</mat-card>
