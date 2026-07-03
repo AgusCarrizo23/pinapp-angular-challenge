@@ -75,15 +75,17 @@
           class="login-form__submit"
           [disabled]="loginForm.invalid || isLoading"
         >
-          <span>{{ isLoading ? 'Ingresando...' : 'Iniciar sesión' }}</span>
-          <mat-progress-spinner
-            *ngIf="isLoading"
-            class="login-form__spinner"
-            mode="indeterminate"
-            diameter="18"
-            strokeWidth="3"
-            aria-hidden="true"
-          ></mat-progress-spinner>
+          <span class="login-form__submit-content">
+            <span>{{ isLoading ? 'Ingresando...' : 'Iniciar sesión' }}</span>
+            <mat-progress-spinner
+              *ngIf="isLoading"
+              class="login-form__spinner"
+              mode="indeterminate"
+              diameter="18"
+              strokeWidth="3"
+              aria-hidden="true"
+            ></mat-progress-spinner>
+          </span>
         </button>
       </form>
     </mat-card>
