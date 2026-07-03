@@ -26,9 +26,11 @@
       [matMenuTriggerFor]="accountMenu"
       aria-label="Abrir menú de usuario"
     >
-      <span class="topbar__user-name">{{ userName }}</span>
-      <span class="topbar__avatar" aria-hidden="true">{{ userInitial }}</span>
-      <mat-icon class="topbar__chevron">expand_more</mat-icon>
+      <span class="topbar__profile-content">
+        <span class="topbar__user-name">{{ userName }}</span>
+        <span class="topbar__avatar" aria-hidden="true">{{ userInitial }}</span>
+        <mat-icon class="topbar__chevron">expand_more</mat-icon>
+      </span>
     </button>
 
     <button
