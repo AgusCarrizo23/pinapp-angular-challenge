@@ -53,7 +53,7 @@ export class LoginComponent {
       })
     ).subscribe({
       next: () => {
-        this.router.navigate(['/home']);
+        this.router.navigate(['/dashboard']);
       },
       error: (error: Error) => {
         this.loginError = error.message;

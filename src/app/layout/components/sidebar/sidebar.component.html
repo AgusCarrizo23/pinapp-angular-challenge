@@ -1,0 +1,36 @@
+<aside class="sidebar">
+  <div class="sidebar__heading">
+    <span class="sidebar__eyebrow">Navegación</span>
+    <span class="sidebar__title">Menú principal</span>
+  </div>
+
+  <mat-nav-list class="sidebar__nav" aria-label="Secciones de la aplicación">
+    <a
+      *ngFor="let item of navigationItems"
+      mat-list-item
+      class="sidebar__link"
+      [routerLink]="item.route"
+      routerLinkActive="sidebar__link--active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      ariaCurrentWhenActive="page"
+      (click)="navigated.emit()"
+    >
+      <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+      <span matListItemTitle>{{ item.label }}</span>
+    </a>
+  </mat-nav-list>
+
+  <div class="sidebar__footer">
+    <mat-divider></mat-divider>
+    <button
+      mat-button
+      type="button"
+      class="sidebar__logout"
+      [disabled]="isLoggingOut"
+      (click)="logoutRequested.emit()"
+    >
+      <mat-icon>{{ isLoggingOut ? 'hourglass_top' : 'logout' }}</mat-icon>
+      <span>{{ isLoggingOut ? 'Cerrando sesión...' : 'Cerrar sesión' }}</span>
+    </button>
+  </div>
+</aside>
