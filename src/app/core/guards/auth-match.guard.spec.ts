@@ -37,6 +37,13 @@ describe('authMatchGuard', () => {
       .toBe('/login?returnUrl=%2Fcustomers%2Fnew');
   });
 
+  it('redirects the initial root URL to a clean login URL', async () => {
+    const result = await executeGuard();
+
+    expect(result instanceof UrlTree).toBeTrue();
+    expect(router.serializeUrl(result as UrlTree)).toBe('/login');
+  });
+
   it('does not match the app shell for unknown public routes', async () => {
     expect(await executeGuard('login', 'testing123')).toBeFalse();
   });

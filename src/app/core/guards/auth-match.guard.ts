@@ -19,6 +19,10 @@ export const authMatchGuard: CanMatchFn = (_route, segments) => {
         return false;
       }
 
+      if (segments.length === 0) {
+        return router.createUrlTree(['/login']);
+      }
+
       return router.createUrlTree(['/login'], {
         queryParams: { returnUrl: getReturnUrl(segments) }
       });
@@ -48,9 +52,5 @@ function isKnownPrivateRoute(segments: UrlSegment[]): boolean {
 }
 
 function getReturnUrl(segments: UrlSegment[]): string {
-  if (segments.length === 0) {
-    return '/dashboard';
-  }
-
   return `/${segments.map(({ path }) => path).join('/')}`;
 }
