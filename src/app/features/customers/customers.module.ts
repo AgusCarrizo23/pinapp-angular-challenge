@@ -19,6 +19,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule, Routes } from '@angular/router';
 
 import { CustomerDetailDialogComponent } from './dialogs/customer-detail-dialog/customer-detail-dialog.component';
+import { CustomerEditDialogComponent } from './dialogs/customer-edit-dialog/customer-edit-dialog.component';
+import { LettersOnlyInputDirective } from './directives/letters-only-input.directive';
 import { CustomerFormPageComponent } from './pages/customer-form-page/customer-form-page.component';
 import { CustomersPageComponent } from './pages/customers-page/customers-page.component';
 import { CustomerBirthDatePipe } from './pipes/customer-birth-date.pipe';
@@ -40,6 +42,8 @@ const routes: Routes = [
     CustomersPageComponent,
     CustomerFormPageComponent,
     CustomerDetailDialogComponent,
+    CustomerEditDialogComponent,
+    LettersOnlyInputDirective,
     CustomerBirthDatePipe
   ],
   imports: [

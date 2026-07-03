@@ -1,0 +1,87 @@
+<mat-card class="customer-edit-dialog" aria-labelledby="customer-edit-dialog-title">
+  <header class="customer-edit-dialog__header">
+    <div>
+      <h2 id="customer-edit-dialog-title">Editar cliente</h2>
+      <p>Actualizá la información registrada del cliente.</p>
+    </div>
+
+    <button mat-icon-button type="button" aria-label="Cerrar edición" (click)="cancel()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+
+  <mat-divider></mat-divider>
+
+  <form [formGroup]="customerForm" (ngSubmit)="submit()" novalidate>
+    <mat-card-content class="customer-edit-dialog__content">
+      <div class="customer-edit-dialog__grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Nombre</mat-label>
+          <input
+            matInput
+            appLettersOnly
+            type="text"
+            formControlName="name"
+            autocomplete="given-name"
+          />
+          <mat-error>{{ getNameErrorMessage() }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Apellido</mat-label>
+          <input
+            matInput
+            appLettersOnly
+            type="text"
+            formControlName="lastName"
+            autocomplete="family-name"
+          />
+          <mat-error>{{ getLastNameErrorMessage() }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Edad</mat-label>
+          <input matInput type="number" formControlName="age" readonly />
+          <mat-hint>Se calcula según la fecha de nacimiento.</mat-hint>
+          <mat-error>{{ getAgeErrorMessage() }}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Fecha de nacimiento</mat-label>
+          <input
+            matInput
+            formControlName="birthDate"
+            [matDatepicker]="birthDatePicker"
+            [max]="maxBirthDate"
+          />
+          <mat-datepicker-toggle matSuffix [for]="birthDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #birthDatePicker></mat-datepicker>
+          <mat-error>{{ getBirthDateErrorMessage() }}</mat-error>
+        </mat-form-field>
+      </div>
+
+    </mat-card-content>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-actions class="customer-edit-dialog__actions" align="end">
+      <button mat-stroked-button type="button" [disabled]="isSaving" (click)="cancel()">
+        Cancelar
+      </button>
+      <button
+        mat-flat-button
+        color="primary"
+        type="submit"
+        [disabled]="customerForm.invalid || isSaving"
+      >
+        <mat-progress-spinner
+          *ngIf="isSaving"
+          mode="indeterminate"
+          diameter="18"
+          strokeWidth="3"
+        ></mat-progress-spinner>
+        <span>{{ isSaving ? 'Guardando...' : 'Guardar cambios' }}</span>
+      </button>
+    </mat-card-actions>
+  </form>
+</mat-card>

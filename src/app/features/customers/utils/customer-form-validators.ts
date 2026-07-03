@@ -15,6 +15,24 @@ export function noWhitespaceValidator(
     : null;
 }
 
+export function lettersOnlyValidator(
+  control: AbstractControl
+): ValidationErrors | null {
+  const value = control.value;
+
+  if (value === null || value === '') {
+    return null;
+  }
+
+  return typeof value === 'string' && /^[\p{L}\s]+$/u.test(value)
+    ? null
+    : { lettersOnly: true };
+}
+
+export function sanitizeLettersInput(value: string): string {
+  return value.replace(/[^\p{L}\s]/gu, '');
+}
+
 export function positiveIntegerValidator(
   control: AbstractControl
 ): ValidationErrors | null {
