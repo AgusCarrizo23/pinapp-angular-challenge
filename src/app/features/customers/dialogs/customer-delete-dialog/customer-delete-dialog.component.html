@@ -1,0 +1,70 @@
+<mat-card class="customer-delete-dialog" aria-labelledby="customer-delete-dialog-title">
+  <header class="customer-delete-dialog__header">
+    <div class="customer-delete-dialog__heading">
+      <span class="customer-delete-dialog__warning" aria-hidden="true">
+        <mat-icon>warning</mat-icon>
+      </span>
+      <div>
+        <h2 id="customer-delete-dialog-title">Eliminar cliente</h2>
+        <p>Esta acción no se puede deshacer.</p>
+      </div>
+    </div>
+
+    <button
+      mat-icon-button
+      type="button"
+      aria-label="Cerrar confirmación de eliminación"
+      [disabled]="isDeleting"
+      (click)="cancel()"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+
+  <mat-divider></mat-divider>
+
+  <mat-card-content class="customer-delete-dialog__content">
+    <p class="customer-delete-dialog__question">
+      ¿Estás segura de que querés eliminar a este cliente?
+    </p>
+
+    <dl class="customer-delete-dialog__summary">
+      <div>
+        <dt>Nombre completo</dt>
+        <dd>{{ fullName }}</dd>
+      </div>
+      <div>
+        <dt>Edad</dt>
+        <dd>{{ customer.age }} años</dd>
+      </div>
+      <div>
+        <dt>Fecha de nacimiento</dt>
+        <dd>{{ customer.birthDate | customerBirthDate }}</dd>
+      </div>
+    </dl>
+  </mat-card-content>
+
+  <mat-divider></mat-divider>
+
+  <mat-card-actions class="customer-delete-dialog__actions" align="end">
+    <button mat-stroked-button type="button" [disabled]="isDeleting" (click)="cancel()">
+      Cancelar
+    </button>
+    <button
+      mat-flat-button
+      color="warn"
+      type="button"
+      [disabled]="isDeleting"
+      (click)="confirmDelete()"
+    >
+      <mat-progress-spinner
+        *ngIf="isDeleting"
+        mode="indeterminate"
+        diameter="18"
+        aria-label="Eliminando cliente"
+      ></mat-progress-spinner>
+      <mat-icon *ngIf="!isDeleting" aria-hidden="true">delete_forever</mat-icon>
+      {{ isDeleting ? 'Eliminando...' : 'Eliminar cliente' }}
+    </button>
+  </mat-card-actions>
+</mat-card>

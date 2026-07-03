@@ -5,6 +5,7 @@ import { Subscription, take } from 'rxjs';
 
 import { Customer } from '../../interfaces/customer';
 import { CustomerDetailDialogComponent } from '../../dialogs/customer-detail-dialog/customer-detail-dialog.component';
+import { CustomerDeleteDialogComponent } from '../../dialogs/customer-delete-dialog/customer-delete-dialog.component';
 import { CustomerEditDialogComponent } from '../../dialogs/customer-edit-dialog/customer-edit-dialog.component';
 import { CustomersService } from '../../services/customers.service';
 import {
@@ -136,8 +137,18 @@ export class CustomersPageComponent implements OnInit, OnDestroy {
   }
 
   deleteCustomer(customer: Customer): void {
-    void customer;
-    // luego agregar la funcionalidad de eliminacion de cliente.
+    this.dialog.open(CustomerDeleteDialogComponent, {
+      width: '32.5rem',
+      maxWidth: '95vw',
+      autoFocus: false,
+      restoreFocus: true,
+      disableClose: true,
+      data: customer
+    }).afterClosed().pipe(take(1)).subscribe((wasDeleted: boolean | undefined) => {
+      if (wasDeleted) {
+        this.loadCustomers();
+      }
+    });
   }
 
   ngOnDestroy(): void {
