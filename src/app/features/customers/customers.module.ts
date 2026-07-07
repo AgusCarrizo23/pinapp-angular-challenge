@@ -26,6 +26,7 @@ import { CustomerDetailDialogComponent } from './dialogs/customer-detail-dialog/
 import { CustomerDeleteDialogComponent } from './dialogs/customer-delete-dialog/customer-delete-dialog.component';
 import { CustomerEditDialogComponent } from './dialogs/customer-edit-dialog/customer-edit-dialog.component';
 import { LettersOnlyInputDirective } from './directives/letters-only-input.directive';
+import { BirthDateInputDirective } from './directives/birth-date-input.directive';
 import { CustomerFormPageComponent } from './pages/customer-form-page/customer-form-page.component';
 import { CustomersPageComponent } from './pages/customers-page/customers-page.component';
 import { CustomerBirthDatePipe } from './pipes/customer-birth-date.pipe';
@@ -51,6 +52,7 @@ const routes: Routes = [
     CustomerDeleteDialogComponent,
     CustomerEditDialogComponent,
     LettersOnlyInputDirective,
+    BirthDateInputDirective,
     CustomerBirthDatePipe
   ],
   imports: [

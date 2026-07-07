@@ -44,4 +44,19 @@ export class DayMonthYearDateAdapter extends NativeDateAdapter {
       ? date
       : this.invalid();
   }
+
+  override format(date: Date, displayFormat: Intl.DateTimeFormatOptions): string {
+    if (
+      displayFormat.day === 'numeric'
+      && displayFormat.month === 'numeric'
+      && displayFormat.year === 'numeric'
+    ) {
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+
+      return `${day}/${month}/${date.getFullYear()}`;
+    }
+
+    return super.format(date, displayFormat);
+  }
 }

@@ -30,4 +30,12 @@ describe('DayMonthYearDateAdapter', () => {
     expect(adapter.isValid(adapter.parse('29/2/2001') as Date)).toBeFalse();
     expect(adapter.isValid(adapter.parse('2000-08-02') as Date)).toBeFalse();
   });
+
+  it('formats the input with two-digit day and month', () => {
+    expect(adapter.format(new Date(2000, 7, 2), {
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric'
+    })).toBe('02/08/2000');
+  });
 });
