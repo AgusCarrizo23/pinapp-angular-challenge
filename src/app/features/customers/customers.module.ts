@@ -3,7 +3,11 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
+import {
+  DateAdapter,
+  MAT_DATE_LOCALE,
+  MatNativeDateModule
+} from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -22,10 +26,12 @@ import { CustomerDetailDialogComponent } from './dialogs/customer-detail-dialog/
 import { CustomerDeleteDialogComponent } from './dialogs/customer-delete-dialog/customer-delete-dialog.component';
 import { CustomerEditDialogComponent } from './dialogs/customer-edit-dialog/customer-edit-dialog.component';
 import { LettersOnlyInputDirective } from './directives/letters-only-input.directive';
+import { BirthDateInputDirective } from './directives/birth-date-input.directive';
 import { CustomerFormPageComponent } from './pages/customer-form-page/customer-form-page.component';
 import { CustomersPageComponent } from './pages/customers-page/customers-page.component';
 import { CustomerBirthDatePipe } from './pipes/customer-birth-date.pipe';
 import { createCustomerPaginatorIntl } from './utils/customer-paginator-intl';
+import { DayMonthYearDateAdapter } from './utils/day-month-year-date-adapter';
 
 const routes: Routes = [
   {
@@ -46,6 +52,7 @@ const routes: Routes = [
     CustomerDeleteDialogComponent,
     CustomerEditDialogComponent,
     LettersOnlyInputDirective,
+    BirthDateInputDirective,
     CustomerBirthDatePipe
   ],
   imports: [
@@ -70,6 +77,7 @@ const routes: Routes = [
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'es-AR' },
+    { provide: DateAdapter, useClass: DayMonthYearDateAdapter },
     {
       provide: MatPaginatorIntl,
       useFactory: createCustomerPaginatorIntl
